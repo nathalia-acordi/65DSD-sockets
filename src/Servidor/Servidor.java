@@ -51,7 +51,7 @@ public class Servidor {
 
         switch (comando.toUpperCase()) {
             case "INSERT":
-                return inserirPessoaOuEquipe(partes);
+                return inserirPessoa(partes);
             case "UPDATE":
                 return atualizarPessoa(partes);
             case "DELETE":
@@ -79,53 +79,27 @@ public class Servidor {
         }
     }
 
-    private static String inserirPessoaOuEquipe(String[] partes) {
-        try {
-            String tipo = partes[1].trim();
-            if (tipo.equalsIgnoreCase("ADMIN") || tipo.equalsIgnoreCase("MEMBRO")) {
-                return inserirPessoa(partes);
-            } else if (tipo.equalsIgnoreCase("EQUIPE")) {
-                if (partes.length < 5) {
-                    return "Erro: Parâmetros insuficientes para INSERT EQUIPE.";
-                }
-                Long id = Long.parseLong(partes[2].trim());
-                String nome = partes[3].trim();
-                String admCpf = partes[4].trim();
-
-                Administrador adm = null;
-                for (Pessoa pessoa : pessoas) {
-                    if (pessoa instanceof Administrador && pessoa.getCpf().equals(admCpf)) {
-                        adm = (Administrador) pessoa;
-                        break;
-                    }
-                }
-
-                if (adm == null) {
-                    return "Erro: Administrador não encontrado.";
-                }
-
-                Equipe equipe = new Equipe(id, nome, adm);
-                equipes.add(equipe);
-                return "Equipe inserida com sucesso.";
-            } else {
-                return "Erro: Tipo de pessoa desconhecido.";
-            }
-        } catch (Exception e) {
-            return "Erro ao inserir: " + e.getMessage();
-        }
-    }
-
     private static String inserirPessoa(String[] partes) {
         try {
+            if (partes.length < 5) {
+                return "Erro: Parâmetros insuficientes para INSERT.";
+            }
             String tipo = partes[1].trim();
             String cpf = partes[2].trim();
             String nome = partes[3].trim();
             String endereco = partes[4].trim();
 
             if (tipo.equalsIgnoreCase("ADMIN")) {
-                Administrador admin = new Administrador(cpf, nome, endereco, partes[5].trim());
+                if (partes.length < 6) {
+                    return "Erro: Parâmetros insuficientes para inserir ADMIN.";
+                }
+                String setor = partes[5].trim();
+                Administrador admin = new Administrador(cpf, nome, endereco, setor);
                 pessoas.add(admin);
             } else if (tipo.equalsIgnoreCase("MEMBRO")) {
+                if (partes.length < 7) {
+                    return "Erro: Parâmetros insuficientes para inserir MEMBRO.";
+                }
                 LocalDate dataEntrada = LocalDate.parse(partes[5].trim());
                 LocalTime horaEntrada = LocalTime.parse(partes[6].trim());
                 Membro membro = new Membro(cpf, nome, endereco, dataEntrada, horaEntrada);
@@ -342,58 +316,53 @@ public class Servidor {
     private static String adicionarMembroAEquipe(String[] partes) {
         try {
             if (partes.length < 3) {
-                return "Erro: Parâmetros insuficientes para ADICIONAR.";
+                return "Erro: Parâmetros insuficientes para INSERT_MEMBRO_EQUIPE.";
             }
-            Long idEquipe = Long.parseLong(partes[1].trim());
+            Long equipeId = Long.parseLong(partes[1].trim());
             String cpfMembro = partes[2].trim();
-    
+
             Equipe equipe = null;
             for (Equipe eq : equipes) {
-                if (eq.getId().equals(idEquipe)) {
+                if (eq.getId().equals(equipeId)) {
                     equipe = eq;
                     break;
                 }
             }
-    
+
             if (equipe == null) {
                 return "Erro: Equipe não encontrada.";
             }
-    
-            Pessoa membro = null;
+
+            Membro membro = null;
             for (Pessoa pessoa : pessoas) {
-                if (pessoa.getCpf().equals(cpfMembro)) {
-                    membro = pessoa;
+                if (pessoa instanceof Membro && pessoa.getCpf().equals(cpfMembro)) {
+                    membro = (Membro) pessoa;
                     break;
                 }
             }
-    
+
             if (membro == null) {
                 return "Erro: Membro não encontrado.";
             }
-    
-            if (membro instanceof Membro) {
-                equipe.getMembros().add((Membro) membro);
-                return "Membro adicionado à equipe com sucesso.";
-            } else {
-                return "Erro: A pessoa não é um membro válido.";
-            }
+
+            equipe.getMembros().add(membro);
+            return "Membro adicionado à equipe com sucesso.";
         } catch (Exception e) {
             return "Erro ao adicionar membro à equipe: " + e.getMessage();
         }
     }
-    
 
     private static String removerMembroDaEquipe(String[] partes) {
         try {
             if (partes.length < 3) {
                 return "Erro: Parâmetros insuficientes para DELETE_MEMBRO_EQUIPE.";
             }
-            Long idEquipe = Long.parseLong(partes[1].trim());
+            Long equipeId = Long.parseLong(partes[1].trim());
             String cpfMembro = partes[2].trim();
 
             Equipe equipe = null;
             for (Equipe eq : equipes) {
-                if (eq.getId().equals(idEquipe)) {
+                if (eq.getId().equals(equipeId)) {
                     equipe = eq;
                     break;
                 }
@@ -403,20 +372,20 @@ public class Servidor {
                 return "Erro: Equipe não encontrada.";
             }
 
-            Membro membroRemover = null;
-            for (Membro membro : equipe.getMembros()) {
-                if (membro.getCpf().equals(cpfMembro)) {
-                    membroRemover = membro;
+            Membro membro = null;
+            for (Pessoa pessoa : pessoas) {
+                if (pessoa instanceof Membro && pessoa.getCpf().equals(cpfMembro)) {
+                    membro = (Membro) pessoa;
                     break;
                 }
             }
 
-            if (membroRemover == null) {
-                return "Erro: Membro não encontrado na equipe.";
+            if (membro == null) {
+                return "Erro: Membro não encontrado.";
             }
 
-            equipe.getMembros().remove(membroRemover);
-            return "Membro removido com sucesso da equipe.";
+            equipe.getMembros().remove(membro);
+            return "Membro removido da equipe com sucesso.";
         } catch (Exception e) {
             return "Erro ao remover membro da equipe: " + e.getMessage();
         }
