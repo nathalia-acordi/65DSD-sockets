@@ -1,3 +1,4 @@
+package modelo;
 public class Administrador extends Pessoa {
     private String setorResponsavel;
 
@@ -6,6 +7,16 @@ public class Administrador extends Pessoa {
         this.setorResponsavel = setorResponsavel;
     }
 
-    public String getSetorResponsavel() { return setorResponsavel; }
-    public void setSetorResponsavel(String setorResponsavel) { this.setorResponsavel = setorResponsavel; }
+    public String getSetorResponsavel() {
+        return setorResponsavel;
+    }
+
+    public void setSetorResponsavel(String setorResponsavel) {
+        this.setorResponsavel = setorResponsavel;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ";" + setorResponsavel;
+    }
 }

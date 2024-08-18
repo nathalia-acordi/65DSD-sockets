@@ -1,27 +1,60 @@
+package modelo;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Equipe {
     private Long id;
     private String nome;
     private List<Membro> membros;
-    private Administrador adm;
+    private Administrador administrador;
 
-    public Equipe(Long id, String nome, List<Membro> membros, Administrador adm) {
+    public Equipe(Long id, String nome, Administrador administrador) {
         this.id = id;
         this.nome = nome;
-        this.membros = membros;
-        this.adm = adm;
+        this.administrador = administrador;
+        this.membros = new ArrayList<>();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public List<Membro> getMembros() { return membros; }
-    public void setMembros(List<Membro> membros) { this.membros = membros; }
+    public String getNome() {
+        return nome;
+    }
 
-    public Administrador getAdm() { return adm; }
-    public void setAdm(Administrador adm) { this.adm = adm; }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public List<Membro> getMembros() {
+        return membros;
+    }
+
+    public void setMembros(List<Membro> membros) {
+        this.membros = membros;
+    }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
+    }
+
+    @Override
+    public String toString() {
+        return "Equipe{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", administrador=" + administrador.getNome() +
+                ", membros=" + membros +
+                '}';
+    }
 }
