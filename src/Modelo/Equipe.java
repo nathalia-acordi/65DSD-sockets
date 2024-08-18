@@ -6,8 +6,8 @@ import java.util.List;
 public class Equipe {
     private Long id;
     private String nome;
-    private List<Membro> membros;
     private Administrador administrador;
+    private List<Membro> membros;
 
     public Equipe(Long id, String nome, Administrador administrador) {
         this.id = id;
@@ -32,14 +32,6 @@ public class Equipe {
         this.nome = nome;
     }
 
-    public List<Membro> getMembros() {
-        return membros;
-    }
-
-    public void setMembros(List<Membro> membros) {
-        this.membros = membros;
-    }
-
     public Administrador getAdministrador() {
         return administrador;
     }
@@ -48,13 +40,26 @@ public class Equipe {
         this.administrador = administrador;
     }
 
+    public List<Membro> getMembros() {
+        return membros;
+    }
+
+    public void setMembros(List<Membro> membros) {
+        this.membros = membros;
+    }
+
+    public void addMembro(Membro membro) {
+        if (!membros.contains(membro)) {
+            membros.add(membro);
+        }
+    }
+
+    public void removeMembro(Membro membro) {
+        membros.remove(membro);
+    }
+
     @Override
     public String toString() {
-        return "Equipe{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", administrador=" + administrador.getNome() +
-                ", membros=" + membros +
-                '}';
+        return "ID: " + id + ", Nome: " + nome + ", Administrador: " + (administrador != null ? administrador.getNome() : "Nenhum") + ", Membros: " + membros.size();
     }
 }
