@@ -4,6 +4,8 @@
 
 Este projeto é um estudo sobre Sockets desenvolvido para a disciplina de Sistemas Paralelos e Distribuídos (65DSD). O sistema é um gerenciador de equipes e membros que oferece operações CRUD (Criar, Ler, Atualizar e Excluir) tanto para pessoas quanto para equipes. Utilizando sockets, a comunicação entre um servidor e clientes é facilitada, permitindo o gerenciamento dos dados diretamente através do terminal.
 
+Foi feito em parceria com o meu colega Diogo Sardagna.
+
 ## Estrutura do Sistema
 
 ### Classes Modelo
