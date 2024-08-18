@@ -1,9 +1,9 @@
 package modelo;
-
-public class Pessoa {
+public abstract class Pessoa {
     private String cpf;
     private String nome;
     private String endereco;
+    private Equipe equipe; // Adicionado para a composição com a equipe
 
     public Pessoa(String cpf, String nome, String endereco) {
         this.cpf = cpf;
@@ -35,8 +35,20 @@ public class Pessoa {
         this.endereco = endereco;
     }
 
+    public Equipe getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(Equipe equipe) {
+        this.equipe = equipe;
+    }
+
     @Override
     public String toString() {
-        return "CPF: " + cpf + ", Nome: " + nome + ", Endereço: " + endereco;
+        return "Pessoa{" +
+                "cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", endereco='" + endereco + '\'' +
+                '}';
     }
 }

@@ -1,18 +1,16 @@
 package modelo;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Membro extends Pessoa {
     private LocalDate dataEntrada;
     private LocalTime horaEntrada;
-    private Equipe equipe;
 
-    public Membro(String cpf, String nome, String endereco, LocalDate dataEntrada, LocalTime horaEntrada) {
+    public Membro(String cpf, String nome, String endereco, LocalDate dataEntrada, LocalTime horaEntrada, Equipe equipe) {
         super(cpf, nome, endereco);
         this.dataEntrada = dataEntrada;
         this.horaEntrada = horaEntrada;
-        this.equipe = null; 
+        this.setEquipe(equipe); // Associação obrigatória com uma equipe
     }
 
     public LocalDate getDataEntrada() {
@@ -31,16 +29,14 @@ public class Membro extends Pessoa {
         this.horaEntrada = horaEntrada;
     }
 
-    public Equipe getEquipe() {
-        return equipe;
-    }
-
-    public void setEquipe(Equipe equipe) {
-        this.equipe = equipe;
-    }
-
     @Override
     public String toString() {
-        return super.toString() + ", Data Entrada: " + dataEntrada + ", Hora Entrada: " + horaEntrada;
+        return "Membro{" +
+                "cpf='" + getCpf() + '\'' +
+                ", nome='" + getNome() + '\'' +
+                ", endereco='" + getEndereco() + '\'' +
+                ", dataEntrada=" + dataEntrada +
+                ", horaEntrada=" + horaEntrada +
+                '}';
     }
 }

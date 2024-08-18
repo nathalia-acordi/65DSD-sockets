@@ -1,13 +1,11 @@
 package modelo;
-
 public class Administrador extends Pessoa {
     private String setorResponsavel;
-    private Equipe equipe;
 
-    public Administrador(String cpf, String nome, String endereco, String setorResponsavel) {
+    public Administrador(String cpf, String nome, String endereco, String setorResponsavel, Equipe equipe) {
         super(cpf, nome, endereco);
         this.setorResponsavel = setorResponsavel;
-        this.equipe = null; 
+        this.setEquipe(equipe); // Associação obrigatória com uma equipe
     }
 
     public String getSetorResponsavel() {
@@ -18,16 +16,13 @@ public class Administrador extends Pessoa {
         this.setorResponsavel = setorResponsavel;
     }
 
-    public Equipe getEquipe() {
-        return equipe;
-    }
-
-    public void setEquipe(Equipe equipe) {
-        this.equipe = equipe;
-    }
-
     @Override
     public String toString() {
-        return super.toString() + ", Setor: " + setorResponsavel;
+        return "Administrador{" +
+                "cpf='" + getCpf() + '\'' +
+                ", nome='" + getNome() + '\'' +
+                ", endereco='" + getEndereco() + '\'' +
+                ", setorResponsavel='" + setorResponsavel + '\'' +
+                '}';
     }
 }
