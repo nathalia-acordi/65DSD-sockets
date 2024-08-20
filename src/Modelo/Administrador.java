@@ -2,10 +2,9 @@ package modelo;
 public class Administrador extends Pessoa {
     private String setorResponsavel;
 
-    public Administrador(String cpf, String nome, String endereco, String setorResponsavel, Equipe equipe) {
+    public Administrador(String cpf, String nome, String endereco, String setorResponsavel) {
         super(cpf, nome, endereco);
         this.setorResponsavel = setorResponsavel;
-        this.setEquipe(equipe); // Associação obrigatória com uma equipe
     }
 
     public String getSetorResponsavel() {
@@ -18,11 +17,6 @@ public class Administrador extends Pessoa {
 
     @Override
     public String toString() {
-        return "Administrador{" +
-                "cpf='" + getCpf() + '\'' +
-                ", nome='" + getNome() + '\'' +
-                ", endereco='" + getEndereco() + '\'' +
-                ", setorResponsavel='" + setorResponsavel + '\'' +
-                '}';
+        return super.toString() + ";" + setorResponsavel;
     }
 }

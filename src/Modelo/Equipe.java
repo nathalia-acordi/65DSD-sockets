@@ -1,16 +1,18 @@
 package modelo;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Equipe {
     private Long id;
     private String nome;
-    private Administrador administrador;
     private List<Membro> membros;
+    private Administrador administrador;
 
-    public Equipe(Long id, String nome) {
+    public Equipe(Long id, String nome, Administrador administrador) {
         this.id = id;
         this.nome = nome;
+        this.administrador = administrador;
         this.membros = new ArrayList<>();
     }
 
@@ -30,6 +32,14 @@ public class Equipe {
         this.nome = nome;
     }
 
+    public List<Membro> getMembros() {
+        return membros;
+    }
+
+    public void setMembros(List<Membro> membros) {
+        this.membros = membros;
+    }
+
     public Administrador getAdministrador() {
         return administrador;
     }
@@ -38,25 +48,13 @@ public class Equipe {
         this.administrador = administrador;
     }
 
-    public List<Membro> getMembros() {
-        return membros;
-    }
-
-    public void adicionarMembro(Membro membro) {
-        membros.add(membro);
-    }
-
-    public void removerMembro(Membro membro) {
-        membros.remove(membro);
-    }
-
     @Override
     public String toString() {
         return "Equipe{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", administrador=" + (administrador != null ? administrador.getNome() : "Nenhum") +
-                ", membros=" + membros.size() +
+                ", administrador=" + administrador.getNome() +
+                ", membros=" + membros +
                 '}';
     }
 }
